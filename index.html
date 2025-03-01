@@ -50,6 +50,11 @@
             color: white;
         }
 
+        .btn-download {
+            background: #4F3521;
+            color: white;
+        }
+
         .btn:hover {
             opacity: 0.8;
         }
@@ -73,7 +78,8 @@
     <img id="resultImage" src="" alt="測驗結果">
     
     <br>
-    <a id="shareFb" href="#" target="_blank" class="btn btn-facebook">分享至 Facebook</a>
+    <a id="shareFb" href="#" target="_blank" class="btn btn-facebook">分享到 Facebook</a>
+    <a id="downloadImg" href="#" class="btn btn-download" download>下載結果圖片</a>
     <a href="https://form.jotform.com/250562179992064" class="btn btn-replay">再玩一次</a>
 
     <!-- 社群連結 -->
@@ -105,7 +111,15 @@
         }
 
         document.getElementById("resultText").innerText = resultText;
-        document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+
+        // ScreenshotOne API 擷取結果頁面並生成圖片
+        let screenshotUrl = `https://api.screenshotone.com/take?access_key=6fZnDVA7hGudPA&url=${encodeURIComponent(window.location.href)}&full_page=true&format=png`;
+
+        // 設定下載按鈕的圖片來源
+        document.getElementById("downloadImg").href = screenshotUrl;
+
+        // 修改 Facebook 分享按鈕，使其分享生成的圖片
+        document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(screenshotUrl)}`;
     </script>
 </body>
 </html>
