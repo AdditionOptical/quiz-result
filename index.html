@@ -18,14 +18,14 @@
         }
 
         h1 {
-    font-size: 32px;
-    padding: 20px;
-    border-radius: 12px;
+    font-size: 24px; /* 縮小字體 */
+    padding: 12px; /* 減少內距，讓區塊變小 */
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.6); /* 讓標語更清楚 */
     display: inline-block;
-    max-width: 90%; /* 限制最大寬度，避免過寬 */
+    max-width: 80%; /* 限制最大寬度，避免過寬 */
     font-weight: bold;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 增加陰影，讓文字更突出 */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 增加陰影，讓文字更突出 */
 }
 
 img {
@@ -134,24 +134,23 @@ img {
         document.getElementById("resultText").innerText = resultText;
 
         // ScreenshotOne API 擷取結果頁面並生成圖片
-        let screenshotApiKey = "6fZnDVA7hGudPA"; // 請換成你的 API Key
-        let screenshotUrl = `https://api.screenshotone.com/take?access_key=${screenshotApiKey}&url=${encodeURIComponent(window.location.href)}&full_page=true&format=png`;
+        let screenshotApiKey = "6fZnDVA7hGudPA"; 
+let screenshotUrl = `https://api.screenshotone.com/take?access_key=${screenshotApiKey}&url=${encodeURIComponent(window.location.href)}&full_page=true&format=png`;
 
-        // 檢查 ScreenshotOne 是否可用
-        fetch(screenshotUrl, { method: "HEAD" })
-            .then(response => {
-                if (response.ok) {
-                    // 設定下載按鈕的圖片來源
-                    document.getElementById("downloadImg").href = screenshotUrl;
-                } else {
-                    throw new Error("ScreenshotOne API 配額不足或服務異常");
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                document.getElementById("screenshot-fail-message").style.display = "block";
-                document.getElementById("downloadImg").style.display = "none";
-            });
+fetch(screenshotUrl)
+    .then(response => {
+        if (response.ok) {
+            document.getElementById("downloadImg").href = screenshotUrl;
+        } else {
+            throw new Error("ScreenshotOne API 無法擷取圖片");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        document.getElementById("screenshot-fail-message").style.display = "block";
+        document.getElementById("downloadImg").style.display = "none";
+    });
+
 
         // Facebook 分享按鈕分享的是目前頁面，而不是 ScreenshotOne URL
         document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
