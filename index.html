@@ -71,6 +71,14 @@
             text-decoration: none;
             margin: 0 10px;
         }
+
+        /* 下載錯誤訊息 */
+        .error-message {
+            display: none;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #6B4F3F;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +89,15 @@
     <a id="shareFb" href="#" target="_blank" class="btn btn-facebook">分享到 Facebook</a>
     <a id="downloadImg" href="#" class="btn btn-download" download>下載結果圖片</a>
     <a href="https://form.jotform.com/250562179992064" class="btn btn-replay">再玩一次</a>
+
+    <!-- 下載失敗時的提醒 -->
+    <div id="screenshot-fail-message" class="error-message">
+        📸 <strong>無法下載圖片？</strong><br>
+        如果測驗結果圖片未能正常顯示，可能是伺服器繁忙或超過每日擷取次數上限。<br><br>
+        <strong>解決方法：</strong><br>
+        1️⃣ <strong>重新整理</strong> 頁面後再次嘗試下載<br>
+        2️⃣ <strong>手動截圖</strong> 測驗結果並分享
+    </div>
 
     <!-- 社群連結 -->
     <div class="social-links">
@@ -113,13 +130,27 @@
         document.getElementById("resultText").innerText = resultText;
 
         // ScreenshotOne API 擷取結果頁面並生成圖片
-        let screenshotUrl = `https://api.screenshotone.com/take?access_key=6fZnDVA7hGudPA&url=${encodeURIComponent(window.location.href)}&full_page=true&format=png`;
+        let screenshotApiKey = "6fZnDVA7hGudPA"; // 請換成你的 API Key
+        let screenshotUrl = `https://api.screenshotone.com/take?access_key=${screenshotApiKey}&url=${encodeURIComponent(window.location.href)}&full_page=true&format=png`;
 
-        // 設定下載按鈕的圖片來源
-        document.getElementById("downloadImg").href = screenshotUrl;
+        // 檢查 ScreenshotOne 是否可用
+        fetch(screenshotUrl, { method: "HEAD" })
+            .then(response => {
+                if (response.ok) {
+                    // 設定下載按鈕的圖片來源
+                    document.getElementById("downloadImg").href = screenshotUrl;
+                } else {
+                    throw new Error("ScreenshotOne API 配額不足或服務異常");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById("screenshot-fail-message").style.display = "block";
+                document.getElementById("downloadImg").style.display = "none";
+            });
 
-        // 修改 Facebook 分享按鈕，使其分享生成的圖片
-        document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(screenshotUrl)}`;
+        // Facebook 分享按鈕分享的是目前頁面，而不是 ScreenshotOne URL
+        document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
     </script>
 </body>
 </html>
