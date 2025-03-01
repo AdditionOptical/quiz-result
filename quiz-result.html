@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測驗結果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            display: inline-block;
+        }
+
+        img {
+            max-width: 80%;
+            margin: 20px;
+            border-radius: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn-facebook { background: #1877f2; color: white; }
+        .btn-replay { background: #ff9800; color: white; }
+    </style>
+</head>
+<body>
+    <h1 id="resultText">測驗結果計算中...</h1>
+    <img id="resultImage" src="" alt="測驗結果">
+    
+    <br>
+    <a id="shareFb" href="#" target="_blank" class="btn btn-facebook">分享至 Facebook</a>
+    <a href="quiz.html" class="btn btn-replay">再玩一次</a>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        let score = getQueryParam("score");
+        let resultText = "";
+        let resultImage = document.getElementById("resultImage");
+
+        if (score == 0) {
+            resultText = "😅 再試一次吧！看來你需要多研究一下明星穿搭！";
+            resultImage.src = "https://your-image-host.com/fail.png";
+        } else if (score == 1) {
+            resultText = "✨ 不錯哦！你的時尚雷達快開啟了！";
+            resultImage.src = "https://your-image-host.com/ok.png";
+        } else if (score == 2) {
+            resultText = "🎉 太厲害了！你根本是時尚達人！";
+            resultImage.src = "https://your-image-host.com/win.png";
+        }
+
+        document.getElementById("resultText").innerText = resultText;
+        document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+    </script>
+</body>
+</html>
