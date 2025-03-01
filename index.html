@@ -8,8 +8,8 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
-            color: white;
+            background-color: #DED1BA; /* 背景色 */
+            color: #6B4F3F; /* 主要字體顏色 */
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -21,7 +21,7 @@
             font-size: 32px;
             padding: 20px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.3);
             display: inline-block;
         }
 
@@ -37,10 +37,22 @@
             margin: 10px;
             text-decoration: none;
             border-radius: 8px;
+            font-weight: bold;
         }
 
-        .btn-facebook { background: #1877f2; color: white; }
-        .btn-replay { background: #ff9800; color: white; }
+        .btn-facebook {
+            background: #6B4F3F;
+            color: #DED1BA;
+        }
+
+        .btn-replay {
+            background: #8A6A58;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
