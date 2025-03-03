@@ -18,22 +18,21 @@
         }
 
         h1 {
-    font-size: 24px; /* 縮小字體 */
-    padding: 12px; /* 減少內距，讓區塊變小 */
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.6); /* 讓標語更清楚 */
-    display: inline-block;
-    max-width: 80%; /* 限制最大寬度，避免過寬 */
-    font-weight: bold;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 增加陰影，讓文字更突出 */
-}
+            font-size: 24px; /* 縮小字體 */
+            padding: 12px; /* 減少內距，讓區塊變小 */
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.6); /* 讓標語更清楚 */
+            display: inline-block;
+            max-width: 80%; /* 限制最大寬度，避免過寬 */
+            font-weight: bold;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 增加陰影，讓文字更突出 */
+        }
 
-img {
-    max-width: 60%;
-    margin: 20px 10px; /* 增加間距，避免標語被擋住 */
-    border-radius: 6px;
-}
-
+        img {
+            max-width: 60%;
+            margin: 20px 10px; /* 增加間距，避免標語被擋住 */
+            border-radius: 6px;
+        }
 
         .btn {
             display: inline-block;
@@ -54,11 +53,6 @@ img {
             color: white;
         }
 
-        .btn-download {
-            background: #4F3521;
-            color: white;
-        }
-
         .btn:hover {
             opacity: 0.8;
         }
@@ -76,12 +70,15 @@ img {
             margin: 0 10px;
         }
 
-        /* 下載錯誤訊息 */
-        .error-message {
-            display: none;
+        /* 提醒手動截圖 */
+        .screenshot-message {
             margin-top: 20px;
             font-size: 16px;
             color: #6B4F3F;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
         }
     </style>
 </head>
@@ -91,16 +88,12 @@ img {
     
     <br>
     <a id="shareFb" href="#" target="_blank" class="btn btn-facebook">分享到 Facebook</a>
-    <a id="downloadImg" href="#" class="btn btn-download" download>下載結果圖片</a>
     <a href="https://form.jotform.com/250562179992064" class="btn btn-replay">再玩一次</a>
 
-    <!-- 下載失敗時的提醒 -->
-    <div id="screenshot-fail-message" class="error-message">
-        📸 <strong>無法下載圖片？</strong><br>
-        如果測驗結果圖片未能正常顯示，可能是伺服器繁忙或超過每日擷取次數上限。<br><br>
-        <strong>解決方法：</strong><br>
-        1️⃣ <strong>重新整理</strong> 頁面後再次嘗試下載<br>
-        2️⃣ <strong>手動截圖</strong> 測驗結果並分享
+    <!-- 提醒手動截圖 -->
+    <div class="screenshot-message">
+        📸 <strong>想分享你的測驗結果嗎？</strong><br>
+        手動截圖並分享到你的 IG / FB 限時動態或貼文吧！🎉
     </div>
 
     <!-- 社群連結 -->
@@ -133,26 +126,7 @@ img {
 
         document.getElementById("resultText").innerText = resultText;
 
-        // ScreenshotOne API 擷取結果頁面並生成圖片
-        let screenshotApiKey = "6fZnDVA7hGudPA"; 
-let screenshotUrl = `https://api.screenshotone.com/take?access_key=${screenshotApiKey}&url=${encodeURIComponent(window.location.href)}&full_page=true&format=png`;
-
-fetch(screenshotUrl)
-    .then(response => {
-        if (response.ok) {
-            document.getElementById("downloadImg").href = screenshotUrl;
-        } else {
-            throw new Error("ScreenshotOne API 無法擷取圖片");
-        }
-    })
-    .catch(error => {
-        console.error(error);
-        document.getElementById("screenshot-fail-message").style.display = "block";
-        document.getElementById("downloadImg").style.display = "none";
-    });
-
-
-        // Facebook 分享按鈕分享的是目前頁面，而不是 ScreenshotOne URL
+        // Facebook 分享按鈕
         document.getElementById("shareFb").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
     </script>
 </body>
